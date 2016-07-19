@@ -22,13 +22,13 @@ inline T hash(const T& key, const T& hashf)
 
 template <class T>
 Dictionary<T>::Dictionary(int inpSize, T* inpData[], vector<string>* inpKeys){
-    size = inpSize;
+    this->size = inpSize;
     setHashes();
     if(inpKeys == nullptr){
-        numKeys = 0;
+        this->numKeys = 0;
         T* data[size];
         for(int i = 0; i < size; i++){
-            keys.push_back("");
+            this->keys.push_back("");
         }
         return;
     }
@@ -45,8 +45,8 @@ Dictionary<T>::Dictionary(int inpSize, T* inpData[], vector<string>* inpKeys){
 template <class T>
 void Dictionary<T>::setHashes(void)
 {
-    hash1 = random() % size;
-    hash2 = random() % size;
+    this->hash1 = random() % size;
+    this->hash2 = random() % size;
 }
 
 template <class T>
@@ -104,8 +104,8 @@ void Dictionary<T>::insertItem(const string& key, T* inpData){
         index += ::hash<int>(val,hash2);
         index = index % size;
     }
-    data[index] = inpData;
-    keys[index] = key;
+    this -> data[index] = inpData;
+    this -> keys[index] = key;
     if(++numKeys > size/2){
         this = tableDouble(this);
     }
