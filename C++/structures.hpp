@@ -13,7 +13,7 @@ public:
 template <class T>
 class Stack{
     int size;
-    Link* last;
+    Link<T>* last;
 public:
     Stack();
     void Push(T inpData);
@@ -23,8 +23,8 @@ public:
 template <class T>
 class Queue{
     int size;
-    Link* first;
-    Link* last;
+    Link<T>* first;
+    Link<T>* last;
 public:
     Queue();
     void Push(T inpData);
@@ -34,13 +34,13 @@ public:
 template <class T>
 class LinkedList{
     int size;
-    Link* first;
-    Link* last;
+    Link<T>* first;
+    Link<T>* last;
 public:
     LinkedList();
-    void Append(T inpData, index = size);
+    void Append(T inpData, int index);
     int Search(T data);
-    Link* Get(index);
+    Link<T>* Get(int index);
 };
 
 #endif
