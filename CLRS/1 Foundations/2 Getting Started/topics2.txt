@@ -1,0 +1,17 @@
+Topics:
+
+Insertion Sort:
+-> Take values in sequence and 1 by 1 put them in their proper spot by swapping.
+
+Analysis:
+-> Assume RAM Model. Count number of instructions. User asymptotic notation instead of exact. Worst case analysis is generally what is used, however there are other analyses.
+
+Designing Algorithms:
+-> Many paradigms such as Divide and Conquer, Dynamic Programming, etc
+
+Merge Sort:
+-> Divide and Conquer solution for sorting. Split into halves, sort halves, then combine halves.
+
+Algorithms:
+-> insertion sort
+-> merge sort

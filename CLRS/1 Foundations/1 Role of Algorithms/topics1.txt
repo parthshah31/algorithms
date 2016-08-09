@@ -1,0 +1,13 @@
+Topics:
+
+What is an algorithm?
+-> Procedure to convert input into desirable outputs
+
+Important components of an algorithm?
+-> Correctness
+-> Efficiency
+-> Simplicity
+
+Algorithms have many uses
+
+Note: No Exercise solutions were created as the questions were simple and more conceptual. No Algorithm code is written as the algorithms introduced were simple.
