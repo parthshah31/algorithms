@@ -7,6 +7,7 @@
 \usepackage{color}
 \usepackage[noend]{algpseudocode}
 \usepackage{graphicx}
+\usepackage{mathtools}
 %\usepackage{algcompatible}
 
 \makeatletter
@@ -21,6 +22,8 @@
 \setlength{\topmargin}{-0.5in}
 \setlength{\textheight}{8.5in}
 
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 \newcommand{\tabUnit}{3ex}
 \newcommand{\tabT}{\hspace*{\tabUnit}}
 
@@ -47,8 +50,82 @@
 \hrulefill
 
 \section*{Notes}
+Insertion Sort pseudocode. Insertion sort basically works by swapping elements into the right place. It starts with the second element and increments to the end.
 
-Blah blah blah
+\medskip
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{Insertion Sort}{A}
+\For{$j = 2$ \textbf{to} $A.length$}
+	\State $key = A[j]$
+	\State $i = j-1$
+	\While{$i > 0$ and $A[i] > key$}
+		\State $A[i+1] = A[i]$
+		\State $i = i-1$
+	\EndWhile
+	\State $A[i+1] = key$
+\EndFor
+\State \textbf{return} $A$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\medskip
+
+Merge is a method to merge two sorted lists into one sorted list. It is a subroutine of merge sort. The pseudocode is below.
+
+\medskip
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{Merge}{A,p,q,r}
+\State $n_1 = q - p + 1$
+\State $n_2 = r - q$
+\State let $L[1...n_1 + 1]$ and $R[1...n_2 + 1]$ be new arrays
+\For{$i = 1$ \textbf{to} $n_1$}
+	\State $L[i] = A[p+i-1]$
+\EndFor
+\For{$j = 1$ \textbf{to} $n_2$}
+	\State $R[j] = A[q+j]$
+\EndFor
+\State $L[n_1+1] = \infty$
+\State $R[n_2+1] = \infty$
+\State $i = 1$
+\State $j = 1$
+\For{$k = p$ \textbf{to} $r$}
+	\If{$L[i] \leq R[j]$}
+		\State $A[k] = L[i]$
+		\State $i = i + 1$
+	\Else
+		\State $A[k] = R[j]$
+		\State $j = j + 1$
+	\EndIf
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\medskip
+
+Merge Sort uses the merge process and recursively sorts an array. It first divides into two halves, sorts the halves and then merges the two sorted halves.
+
+\medskip
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{MergeSort}{A,p,r}
+\If{$p<r$}
+	\State $q = \floor{(p+r)/2}$
+	\State \textbf{MergeSort}($A,p,q$)
+	\State \textbf{MergeSort}($A,q+1,r$)
+	\State \textbf{Merge}($A,p,q,r$)
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\medskip
 
 \section*{2.1 Insertion Sort}
 
@@ -62,6 +139,23 @@ Blah blah blah
 
 \textbf{Solution 2.1-1}
 
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State $A = \{ \textbf{31}| 41, 59, 26, 41, 58 \}$
+\State $A = \{ 31, \textbf{41}| 59, 26, 41, 58 \}$
+\State $A = \{ 31, 41, \textbf{59}| 26, 41, 58 \}$
+\State $A = \{ 31, 41, 59, \textbf{26}| 41, 58 \}$
+\State $A = \{ 31, 41, \textbf{26}, 59| 41, 58 \}$
+\State $A = \{ 31, \textbf{26}, 41, 59| 41, 58 \}$
+\State $A = \{ \textbf{26}, 31, 41, 59| 41, 58 \}$
+\State $A = \{ 26, 31, 41, 59, \textbf{41}| 58 \}$
+\State $A = \{ 26, 31, 41, \textbf{41}, 59| 58 \}$
+\State $A = \{ 26, 31, 41, 41, 59, \textbf{58}| \}$
+\State $A = \{ 26, 31, 41, 41, \textbf{58}, 59| \}$
+\State $A = \{ 26, 31, 41, 41, 58, 59 \}$
+\end{algorithmic}
+\end{algorithm}
+
 \hrulefill
 
 \medskip
@@ -72,15 +166,45 @@ Blah blah blah
 
 \textbf{Solution 2.1-2}
 
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{Insertion Sort}{A}
+\For{$j = 2$ \textbf{to} $A.length$}
+	\State $key = A[j]$
+	\State $i = j-1$
+	\While{$i > 0$ and $A[i] < key$}
+		\State $A[i+1] = A[i]$
+		\State $i = i-1$
+	\EndWhile
+	\State $A[i+1] = key$
+\EndFor
+\State \textbf{return} $A$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 \hrulefill
 
 \medskip
 
-\textbf{Problem 2.1-3} Consider searching problem. Given sequence $A =  <a_1, a_2, a_3, a_4, ... a_n>$ return index $i$ where value $x$ is located in $A$. If $x$ is not in $A$ return NIL
+\textbf{Problem 2.1-3} Consider linear searching problem. Given sequence $A =  <a_1, a_2, a_3, a_4, ... a_n>$ return index $i$ where value $x$ is located in $A$. If $x$ is not in $A$ return NIL
 
 \medskip
 
 \textbf{Solution 2.1-3}
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{LinearSearch}{A,x}
+\For{$j = 1$ \textbf{to} $A.length$}
+	\If{$x$ = $A[j]$}
+		\State \textbf{return} $j$
+	\EndIf
+\EndFor
+\State \textbf{return} NIL
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \hrulefill
 
@@ -91,6 +215,33 @@ Blah blah blah
 \medskip
 
 \textbf{Solution 2.1-4}
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{BitSum}{A,B}
+\State $carrybit = 0$
+\For{$j = 1$ \textbf{to} $n$}
+	\If{($carrybit$ and ($B[j]$ or $A[j]$)) or (not $carrybit$ and ($B[j]$ and $A[j]$)}
+		$carrybit = 1$
+		\If{($carrybit$ and $B[j]$ and $A[j]$)}
+			$C[j] = 1$
+		\Else
+			$C[j] = 0$
+		\EndIf
+	\Else
+		\State $carrybit = 0$
+		\If{not	($carrybit$ or $B[j]$ or $A[j]$)}
+			$C[j] = 0$
+		\Else
+			$C[j] = 1$
+		\EndIf
+	\EndIf
+\EndFor
+\State $C[n+1] = carrybit$
+\State \textbf{return} $C$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \hrulefill
 
@@ -104,7 +255,7 @@ Blah blah blah
 
 \medskip
 
-\textbf{Solution 2.2-1}
+\textbf{Solution 2.2-1} $\boxed{\Theta(n^3)}$
 
 \hrulefill
 
@@ -114,7 +265,7 @@ Blah blah blah
 
 \medskip
 
-\textbf{Solution 2.2-2}
+\textbf{Solution 2.2-2} Selection sort maintains the invariant that elements $1$ through $i$ are sorted after the $i^{th}$ iteration. It only needs $n-1$ elements because then the smallest $n-1$ elements are sorted which means the last element is in the correct location. Best case run time is $\boxed{\Theta(n^2)}$ and worst case is $\boxed{\Theta(n^2)}$ because it take $\Theta(n)$ to find the $i^{th}$ smallest element.
 
 \hrulefill
 
@@ -150,6 +301,25 @@ Blah blah blah
 
 \textbf{Solution 2.3-1}
 
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State $A = \{3, 41, 52, 26 | 38, 57, 9, 49\}$
+\State $B = \{3, 41 | 52, 26 \}, C = \{38, 57 | 9, 49\}$
+\State $D = \{3 | 41 \}, E = \{ 52 | 26\}$
+\State Merge left and right of $D$ and $E$
+\State $D = \{3, 41 \}, E = \{26, 52\}$
+\State $F = \{38 | 57 \}, G = \{ 9 | 49\}$
+\State Merge left and right of $F$ and $G$
+\State $F = \{38, 57 \}, G = \{ 9, 49\}$
+\State Merge $D$ and $E$
+\State $B = \{3, 26, 41, 52 \}$
+\State Merge $F$ and $G$
+\State $C = \{9, 38, 49, 57 \}$
+\State Merge $B$ and $C$
+\State $A = \{3, 9, 26, 38, 41, 49, 52, 57\}$
+\end{algorithmic}
+\end{algorithm}
+
 \hrulefill
 
 \medskip
@@ -159,6 +329,41 @@ Blah blah blah
 \medskip
 
 \textbf{Solution 2.3-2}
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{Merge}{A,p,q,r}
+\State $n_1 = q - p + 1$
+\State $n_2 = r - q$
+\State let $L[1...n_1]$ and $R[1...n_2]$ be new arrays
+\For{$i = 1$ \textbf{to} $n_1$}
+	\State $L[i] = A[p+i-1]$
+\EndFor
+\For{$j = 1$ \textbf{to} $n_2$}
+	\State $R[j] = A[q+j]$
+\EndFor
+\State $i = 1$
+\State $j = 1$
+\For{$k = p$ \textbf{to} $r$}
+	\If{$i = n_1 + 1$}
+		\State $A[k ... r] = R[j...n_2]$
+		\State \textbf{return}
+	\EndIf
+	\If{$j = n_2 + 1$}
+		\State $A[k ... r] = R[i...n_1]$
+		\State \textbf{return}
+	\EndIf
+	\If{$L[i] \leq R[j]$}
+		\State $A[k] = L[i]$
+		\State $i = i + 1$
+	\Else
+		\State $A[k] = R[j]$
+		\State $j = j + 1$
+	\EndIf
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \hrulefill
 
@@ -174,7 +379,7 @@ Blah blah blah
 
 \medskip
 
-\textbf{Solution 2.3-3}
+\textbf{Solution 2.3-3} Base case: $n = 2$. $T(2) = 2 = 2\lg(2)$. Hence the base case is true. Now we must show that if for a give $n = 2^k$ the recursion is true then it is also true for $n = 2^{k+1}$. By the formula $T(2^{k+1}) = 2T(2^{k}) + 2^{k+1} = 2k \cdot 2^{k} + 2^{k+1} = (k+1)2^{k+1}$. This satisfies the equation and therefore the recurrence $T(n) = n\lg(n)$.
 
 \hrulefill
 
@@ -195,6 +400,30 @@ Blah blah blah
 \medskip
 
 \textbf{Solution 2.3-5}
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{BinarySearch}{A,x,low,high}
+\If{$low = high$}
+	\If{$A[low] = x$}
+		\State \textbf{return} $low$
+	\Else
+		\State \textbf{return} NIL
+	\EndIf
+\EndIf
+\State $j = \floor{\frac{low+high}{2}}$
+\If{$A[j] \leq x$}
+	\State $high = j$
+	\State BinarySearch($A,x,low,high$)
+\Else
+	\State $low = j$
+	\State BinarySearch($A,x,low,high$)
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+At each step the search space if halved. So the recurrence is $T(n) = T(n/2) + 1$ which evaluates to $\Theta(\lg(n))$.
 
 \hrulefill
 
@@ -230,7 +459,7 @@ Blah blah blah
 
 \medskip
 
-\textbf{Solution}
+\textbf{Solution} Insertion sort on $k$ items runs in worst case $\Theta{k^2}$. Since there are $n/k$ sublists of $k$ items each the total runtime is $(n/k)k^2 = \boxed{\Theta(nk)}$
 
 \medskip
 
@@ -238,7 +467,7 @@ Blah blah blah
 
 \medskip
 
-\textbf{Solution}
+\textbf{Solution} At each level we can merge 2 sublists. So each process requires the merging of $n/k$ elements of $k$ sublists giving a runtime of $\Theta(n)$. Now to combine all $n/k$ into one take $\lg(n/k)$ of these binary merges. Therefore the runtime of the merge is the runtime of a level times the depth which is $\Theta(n\lg(n/k))$.
 
 \medskip
 
@@ -246,7 +475,7 @@ Blah blah blah
 
 \medskip
 
-\textbf{Solution}
+\textbf{Solution} $k = O(\lg(n))$
 
 \medskip
 
@@ -320,7 +549,7 @@ Blah blah blah
 
 \medskip
 
-\textbf{Solution}
+\textbf{Solution} The runtime is $\Theta(n)$ because the statement inside the loop is executed $n$ times.
 
 \medskip
 
@@ -330,13 +559,24 @@ Blah blah blah
 
 \textbf{Solution}
 
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State $val = 0$
+\For{$i = n$ \textbf{downto} $0$}
+	\State $val = val + a_ix^i$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+Evaluating the inner statement takes $\Theta(i)$ time. Summing $i$ from $0$ to $n$ we get $\boxed{\Theta(n^2)}$ time.
+
 \medskip
 
-\textbf{c)} Assume invariant is that of component up to degree $k$ is evaluated correct. Prove invariant holds.
+\textbf{c)} Assume invariant is that for given $k$, the current evaluation is a factor $x^{n-k}$ off from its final contribution. Prove invariant holds.
 
 \medskip
 
-\textbf{Solution}
+\textbf{Solution} Since the component is currently $\sum\limits_{i=0}^{k} a_{n-i}x^{k-i}$. The final contribution will be $\sum\limits_{i=0}^{k} a_{n-i}x^{n-i}$. If we multiply a $x^{n-k}$ we see that the two sums are equivalent.
 
 \medskip
 
@@ -344,7 +584,7 @@ Blah blah blah
 
 \medskip
 
-\textbf{Solution}
+\textbf{Solution} Since at each step we scale up and add a new coefficient this process ensures that the coefficient of $a_i$ has been scaled up $i$ times. Which means the $a_i$ coefficient is multiplied by $x^i$. This is equivalent to the polynomial sum and therefore we see that the method is correct.
 
 \hrulefill
 
